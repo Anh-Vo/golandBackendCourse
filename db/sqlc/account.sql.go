@@ -7,7 +7,7 @@ import (
 	"context"
 )
 
-const createAuthor = `-- name: CreateAuthor :one
+const createAccount = `-- name: CreateAccount :one
 INSERT INTO accounts (
   owner,
   balance,
@@ -17,14 +17,14 @@ INSERT INTO accounts (
 ) RETURNING id, owner, balance, currency, created_at
 `
 
-type CreateAuthorParams struct {
+type CreateAccountParams struct {
 	Owner    string `json:"owner"`
 	Balance  int64  `json:"balance"`
 	Currency string `json:"currency"`
 }
 
-func (q *Queries) CreateAuthor(ctx context.Context, arg CreateAuthorParams) (Account, error) {
-	row := q.db.QueryRowContext(ctx, createAuthor, arg.Owner, arg.Balance, arg.Currency)
+func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (Account, error) {
+	row := q.db.QueryRowContext(ctx, createAccount, arg.Owner, arg.Balance, arg.Currency)
 	var i Account
 	err := row.Scan(
 		&i.ID,
@@ -36,13 +36,13 @@ func (q *Queries) CreateAuthor(ctx context.Context, arg CreateAuthorParams) (Acc
 	return i, err
 }
 
-const deleteACcount = `-- name: DeleteACcount :exec
+const deleteAccount = `-- name: DeleteAccount :exec
 DELETE FROM accounts 
 WHERE id = $1
 `
 
-func (q *Queries) DeleteACcount(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteACcount, id)
+func (q *Queries) DeleteAccount(ctx context.Context, id int64) error {
+	_, err := q.db.ExecContext(ctx, deleteAccount, id)
 	return err
 }
 

@@ -1,4 +1,4 @@
--- name: CreateAuthor :one
+-- name: CreateAccount :one
 INSERT INTO accounts (
   owner,
   balance,
@@ -23,6 +23,6 @@ SET balance = $2
 WHERE id = $1
 RETURNING *;
 
--- name: DeleteACcount :exec
+-- name: DeleteAccount :exec
 DELETE FROM accounts 
 WHERE id = $1;
