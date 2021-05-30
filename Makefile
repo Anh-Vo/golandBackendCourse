@@ -25,7 +25,10 @@ migratedown:
 sqlc:
 	sqlc generate
 
-test:
+cleantest:
+	go clean -testcache
+
+test: cleantest
 	go test -v -cover ./...
 
-.PHONY: postgres rmpostgres createdb dropdb migrateup migratedown sqlc test
+.PHONY: postgres rmpostgres createdb dropdb migrateup migratedown sqlc test cleantest
